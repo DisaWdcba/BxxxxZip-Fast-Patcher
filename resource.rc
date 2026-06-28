@@ -1,0 +1,54 @@
+#include <windows.h>
+#include "resource.h"
+
+// ─── 图标 ──────────────────────────────────────────────────────
+1 ICON "app.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILEFLAGSMASK   0x3fL
+FILEFLAGS       0x0L
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription",  "Bandizip License Patcher"
+            VALUE "OriginalFilename", "Bandizip-Patcher.exe"
+            VALUE "ProductName",      "Bandizip Patcher"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+100 DIALOGEX 0, 0, 360, 250
+STYLE DS_CENTER | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Bandizip Patcher v1.0"
+FONT 9, "Microsoft YaHei"
+BEGIN
+    CTEXT "Bandizip License Patcher", -1, 10, 8, 340, 14
+    CTEXT "Target: Bandizip 7.x Standard / Enterprise (x64)", -1, 10, 22, 340, 11
+
+    GROUPBOX " Target Directory ", -1, 10, 38, 340, 42
+    EDITTEXT IDC_PATH, 18, 54, 260, 14, ES_AUTOHSCROLL
+    PUSHBUTTON "Browse", IDC_BROWSE, 286, 54, 54, 14
+
+    PUSHBUTTON "1. Check",  IDC_CHECK,  18, 90, 90, 22
+    PUSHBUTTON "2. Patch",  IDC_PATCH,  136, 90, 90, 22
+    PUSHBUTTON "3. Verify", IDC_VERIFY, 254, 90, 90, 22
+
+    GROUPBOX " Log ", -1, 10, 118, 340, 100
+    EDITTEXT IDC_LOG, 18, 132, 324, 80,
+             ES_MULTILINE | ES_READONLY | WS_VSCROLL | ES_AUTOVSCROLL
+
+    LTEXT "License: 152(0x98) -> 6944(0x1B20)  |  Edition: std -> ent",
+          -1, 14, 224, 332, 10
+    CTEXT "Patcher must NOT be placed inside Bandizip directory", -1, 10, 236, 340, 10
+END
