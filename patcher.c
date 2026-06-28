@@ -9,7 +9,6 @@
 #pragma comment(lib, "shell32.lib")
 #pragma comment(lib, "ole32.lib")
 
-// ─── DPI 感知 ──────────────────────────────────────────────────
 static void InitDPI(void)
 {
     HMODULE u32 = GetModuleHandleW(L"user32.dll");
@@ -29,7 +28,6 @@ static void InitDPI(void)
     SetProcessDPIAware();
 }
 
-// ─── 补丁定义 ───────────────────────────────────────────────────
 typedef struct { DWORD off; BYTE orig[8]; BYTE patch[8]; int len; LPCWSTR desc; } PATCH;
 
 static const PATCH g_patches[] = {
@@ -43,8 +41,6 @@ static const PATCH g_patches[] = {
       L"关于页: 隐藏购买/注册按钮 [sub_1400F2C10]" },
 };
 enum { PATCH_N = sizeof(g_patches)/sizeof(g_patches[0]) };
-
-// ─── 资源ID ────────────────────────────────────────────────────
 #define IDC_LOG         1001
 #define IDC_CHECK       1002
 #define IDC_PATCH       1003
@@ -52,12 +48,9 @@ enum { PATCH_N = sizeof(g_patches)/sizeof(g_patches[0]) };
 #define IDC_BROWSE      1005
 #define IDC_PATH        1006
 
-// ─── 全局 ──────────────────────────────────────────────────────
 static HWND  g_log, g_btnPatch, g_btnVerify, g_editPath;
 static WCHAR g_targetDir[MAX_PATH];
 static BOOL  g_checked = FALSE;
-
-// ─── 工具 ──────────────────────────────────────────────────────
 static void Log(LPCWSTR fmt, ...)
 {
     WCHAR buf[2048]; va_list a; va_start(a, fmt);
@@ -119,7 +112,6 @@ static BOOL BackupExe(LPCWSTR dir)
     return FALSE;
 }
 
-// ─── config.ini ────────────────────────────────────────────────
 static void PatchConfig(LPCWSTR dir)
 {
     WCHAR path[MAX_PATH];
@@ -157,7 +149,6 @@ static void PatchConfig(LPCWSTR dir)
     HeapFree(GetProcessHeap(),0,buf);
 }
 
-// ─── 二进制补丁 ────────────────────────────────────────────────
 static BOOL ApplyPatches(LPCWSTR dir)
 {
     WCHAR path[MAX_PATH];
@@ -185,7 +176,6 @@ static BOOL ApplyPatches(LPCWSTR dir)
     return all;
 }
 
-// ─── 验证 ──────────────────────────────────────────────────────
 static BOOL VerifyPatches(LPCWSTR dir)
 {
     WCHAR path[MAX_PATH];
@@ -205,7 +195,6 @@ static BOOL VerifyPatches(LPCWSTR dir)
     return ok;
 }
 
-// ─── 对话框 ────────────────────────────────────────────────────
 static INT_PTR CALLBACK DlgProc(HWND h, UINT m, WPARAM w, LPARAM l)
 {
     switch (m) {
@@ -306,8 +295,6 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, LPWSTR cl, int ns)
 {
     InitDPI();
     InitCommonControls();
-
-    // 自动检测当前目录
     GetCurrentDirectoryW(MAX_PATH, g_targetDir);
 
     return (int)DialogBoxParamW(hi, MAKEINTRESOURCEW(100), NULL, DlgProc, 0);
